@@ -3,12 +3,22 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
-
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<h1>Lista de empresas</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create"><i class="fa fa-plus-circle"> Agregar</i></a>
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+         Busca por nombre: @Html.TextBox("SearchString")
+        <input type="submit" value="Buscar" />
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -73,11 +83,12 @@
                 @Html.DisplayFor(modelItem => item.FechaModificacion)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.EmpresaID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EmpresaID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EmpresaID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.EmpresaID"><i class="fa fa-edit"></i></a> 
+                    <a asp-action="Details" asp-route-id="@item.EmpresaID"><i class="fa fa-eye"></i></a> 
+                    <a asp-action="Delete" asp-route-id="@item.EmpresaID"><i class="fa fa-trash"></i></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+

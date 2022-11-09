@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Crud.Models;
+using Microsoft.Data.SqlClient;
 
 namespace Crud.Controllers
 {
@@ -19,9 +20,16 @@ namespace Crud.Controllers
         }
 
         // GET: Empresa
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Empresa.ToListAsync());
+            var empresa = from s in _context.Empresa
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                empresa = empresa.Where(s => s.Nombre.ToUpper().Contains(searchString.ToUpper()));
+            }
+            
+            return View(await empresa.ToListAsync());
         }
 
         // GET: Empresa/Details/5
@@ -49,8 +57,6 @@ namespace Crud.Controllers
         }
 
         // POST: Empresa/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmpresaID,Nombre,Codigo,Direccion,Telefono,Ciudad,Departamento,Pais,FechaCreacion,FechaModificacion")] Empresa empresa)
@@ -64,7 +70,7 @@ namespace Crud.Controllers
             return View(empresa);
         }
 
-        // GET: Empresa/Edit/5
+        // GET: Empresa/Edit/id
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,9 +86,7 @@ namespace Crud.Controllers
             return View(empresa);
         }
 
-        // POST: Empresa/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Empresa/Edit/id
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EmpresaID,Nombre,Codigo,Direccion,Telefono,Ciudad,Departamento,Pais,FechaCreacion,FechaModificacion")] Empresa empresa)
@@ -115,7 +119,7 @@ namespace Crud.Controllers
             return View(empresa);
         }
 
-        // GET: Empresa/Delete/5
+        // GET: Empresa/Delete/id
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,7 +137,7 @@ namespace Crud.Controllers
             return View(empresa);
         }
 
-        // POST: Empresa/Delete/5
+        // POST: Empresa/Delete/id
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
