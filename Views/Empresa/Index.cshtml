@@ -14,8 +14,8 @@
 @using (Html.BeginForm())
 {
     <p>
-         Busca por nombre: @Html.TextBox("SearchString")
-        <input type="submit" value="Buscar" />
+        <input type="text" name="SearchString" class="form-control"
+           placeholder="Introduzca el nombre para la búsqueda" />
     </p>
 }
 
