@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Crud.Models.Empresa>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Inicio";
 }
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -19,7 +19,7 @@
     </p>
 }
 
-<table class="table">
+<table class="table" id="tabla_a">
     <thead>
         <tr>
             <th>
@@ -53,7 +53,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
@@ -91,4 +91,5 @@
 }
     </tbody>
 </table>
+
 

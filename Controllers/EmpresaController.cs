@@ -61,8 +61,11 @@ namespace Crud.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmpresaID,Nombre,Codigo,Direccion,Telefono,Ciudad,Departamento,Pais,FechaCreacion,FechaModificacion")] Empresa empresa)
         {
+            DateTime now = DateTime.Now;
             if (ModelState.IsValid)
             {
+                empresa.FechaCreacion = now;
+                empresa.FechaModificacion = now;
                 _context.Add(empresa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -91,6 +94,8 @@ namespace Crud.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EmpresaID,Nombre,Codigo,Direccion,Telefono,Ciudad,Departamento,Pais,FechaCreacion,FechaModificacion")] Empresa empresa)
         {
+            DateTime now = DateTime.Now;
+            var empresaTemporal = _context.Empresa;
             if (id != empresa.EmpresaID)
             {
                 return NotFound();
@@ -100,6 +105,7 @@ namespace Crud.Controllers
             {
                 try
                 {
+                    empresa.FechaModificacion = now;
                     _context.Update(empresa);
                     await _context.SaveChangesAsync();
                 }
